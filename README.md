@@ -13,7 +13,7 @@ where they want to go.
 
 - **QuickNav (`Ctrl+K` or `Alt+N`)** — fuzzy search across 75+ built-in SharePoint destinations:
   settings pages, admin surfaces, recycle bins, term store, app catalog and more
-- **Lists & Libraries (`Ctrl+L` or `Alt+O`)** — browse every list and library in the current site
+- **Lists & Libraries (`Alt+O`)** — browse every list and library in the current site
 - **Context-aware** — list-scoped destinations appear only when you are actually inside a list or
   library, so results stay short
 - **Recents, favorites and custom links** — your own destinations, managed from the options page
@@ -26,8 +26,8 @@ where they want to go.
 - **Column Inspector (`Alt+C`)** — internal names, field types, GUIDs, calculated-column formulas,
   lookup relationships, and the current item's value for each column
 - **Object Inspector (`Alt+I`)** — site, web, list, field and content-type metadata
-- **Permission Inspector** — role assignments, SharePoint groups with expandable membership, and
-  permission-level definitions
+- **Permission Inspector (`Alt+P`)** — role assignments, SharePoint groups with expandable
+  membership, and permission-level definitions
 - **Copy-to-clipboard** on every GUID, internal name and field value
 
 Everything is read-only. Where a change is needed, the inspectors link out to SharePoint's own
@@ -38,9 +38,10 @@ settings pages.
 | Shortcut | Action |
 |---|---|
 | `Ctrl+K` (`Cmd+K` on Mac) or `Alt+N` | Open QuickNav |
-| `Ctrl+L` (`Cmd+L` on Mac) or `Alt+O` | Browse lists and libraries |
+| `Alt+O` | Browse lists and libraries |
 | `Alt+C` | Column Inspector |
 | `Alt+I` | Object Inspector |
+| `Alt+P` | Permission Inspector |
 | `↑` / `↓` | Move through results |
 | `PgUp` / `PgDn` | Move a page at a time |
 | `Home` / `End` | Jump to first / last result |
