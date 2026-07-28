@@ -4,6 +4,7 @@
  */
 
 import { SharePointUrlComponents } from '../types/sharepoint-context';
+import { isSharePointHostname } from '../utils/sharepoint-clouds';
 
 /**
  * Regular expressions for SharePoint URL patterns
@@ -41,8 +42,7 @@ const SHAREPOINT_PATTERNS = {
  */
 export function isSharePointUrl(url: string): boolean {
   try {
-    const urlObj = new URL(url);
-    return SHAREPOINT_PATTERNS.ONLINE_DOMAIN.test(urlObj.hostname);
+    return isSharePointHostname(new URL(url).hostname);
   } catch {
     return false;
   }

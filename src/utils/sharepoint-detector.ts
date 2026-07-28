@@ -2,6 +2,7 @@
  * SharePoint page detection and context extraction utilities
  */
 
+import { isSharePointHostname } from './sharepoint-clouds';
 import {
   SharePointContext,
   SharePointVersion,
@@ -61,7 +62,7 @@ export function extractSiteUrl(url: string = window.location.href): string | und
     }
 
     // Root site collection
-    if (hostname.includes('.sharepoint.com') || hostname.includes('.sharepoint-df.com')) {
+    if (isSharePointHostname(hostname)) {
       return `${urlObj.protocol}//${hostname}`;
     }
 

@@ -1,7 +1,7 @@
 /**
  * Sample Links Registry
  * Example link templates for testing the Link Resolution Engine
- * This will be expanded in Issue #4: SharePoint Links Registry
+ * Sample link templates used by tests and examples.
  */
 
 import { LinkTemplate, LinkCategory, LinkRegistry } from '../types/link-template';

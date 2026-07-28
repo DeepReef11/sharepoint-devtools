@@ -17,7 +17,9 @@ where they want to go.
 - **Context-aware** — list-scoped destinations appear only when you are actually inside a list or
   library, so results stay short
 - **Recents, favorites and custom links** — your own destinations, managed from the options page
-- **Multi-tenant** — Commercial, GCC, GCC High and China clouds
+- **Multi-cloud** — commercial and GCC (`*.sharepoint.com`), GCC High (`*.sharepoint.us`), DoD
+  (`*.sharepoint-mil.us`) and China/21Vianet (`*.sharepoint.cn`). Only the commercial cloud has been
+  tested against a live tenant; the others are wired up but unverified.
 
 ### Inspectors
 
@@ -69,7 +71,7 @@ The extension requests as little as it can:
 
 | Permission | Why |
 |---|---|
-| `https://*.sharepoint.com/*`, `https://*.sharepoint-df.com/*` | The content script only runs on SharePoint pages |
+| `https://*.sharepoint.{com,us,cn}/*`, `https://*.sharepoint-{df.com,mil.us}/*` | The content script only runs on SharePoint pages, across all clouds |
 | `storage` | Stores your favorites, recents and custom links |
 | `activeTab`, `scripting` | Opens the modal in the tab you are on |
 

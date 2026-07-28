@@ -1,6 +1,5 @@
 /**
  * Tenant storage manager for chrome.storage
- * Issue #13: Multi-Tenant Support
  */
 
 import { Tenant, TenantPreferences, TenantStorageData } from '../types/tenant';

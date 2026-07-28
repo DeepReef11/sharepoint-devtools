@@ -3,6 +3,7 @@
  * Handles message passing, keyboard shortcuts, and coordinates between components
  */
 
+import { isSharePointUrl } from '../utils/sharepoint-clouds';
 import {
   MessageType,
   ExtensionMessage,
@@ -156,8 +157,7 @@ async function handleGetContext(
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && tab.url) {
     // Check if it's a SharePoint URL
-    const isSharePoint =
-      tab.url.includes('.sharepoint.com') || tab.url.includes('.sharepoint-df.com');
+    const isSharePoint = isSharePointUrl(tab.url);
 
     if (isSharePoint) {
       console.log('SharePoint page loaded in tab:', tabId);

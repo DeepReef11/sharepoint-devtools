@@ -3,7 +3,6 @@
  * Demonstrates and validates the Link Resolution Engine functionality
  *
  * These are example tests showing how the system works.
- * Full Jest/Mocha test suite will be implemented in Issue #16
  */
 
 import { describe, it, expect } from '@jest/globals';

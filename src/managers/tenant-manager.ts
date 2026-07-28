@@ -1,10 +1,14 @@
 /**
  * Tenant manager for multi-tenant support
- * Issue #13: Multi-Tenant Support
  */
 
 import { Tenant, TenantInfo, SharePointCloud, TenantSwitchResult } from '../types/tenant';
 import { tenantStorage } from '../storage/tenant-storage';
+import {
+  isSharePointHostname,
+  detectCloud as detectCloudFromHostname,
+  extractTenantName as extractTenantNameFromHostname,
+} from '../utils/sharepoint-clouds';
 
 /**
  * Manages tenant detection, switching, and storage
@@ -45,12 +49,7 @@ export class TenantManager {
    * Checks if a hostname is a SharePoint URL
    */
   private isSharePointUrl(hostname: string): boolean {
-    return (
-      hostname.includes('.sharepoint.com') ||
-      hostname.includes('.sharepoint-df.com') ||
-      hostname.includes('.sharepoint.us') ||
-      hostname.includes('.sharepoint.cn')
-    );
+    return isSharePointHostname(hostname);
   }
 
   /**
@@ -58,33 +57,14 @@ export class TenantManager {
    * e.g., "contoso" from "contoso.sharepoint.com"
    */
   private extractTenantName(hostname: string): string {
-    const parts = hostname.split('.');
-
-    if (parts.length >= 2) {
-      return parts[0];
-    }
-
-    return hostname;
+    return extractTenantNameFromHostname(hostname);
   }
 
   /**
    * Detects the SharePoint cloud environment
    */
   private detectCloud(hostname: string): SharePointCloud {
-    if (hostname.includes('.sharepoint.com')) {
-      return SharePointCloud.Commercial;
-    }
-    if (hostname.includes('.sharepoint-df.com')) {
-      return SharePointCloud.GCCHigh;
-    }
-    if (hostname.includes('.sharepoint.us')) {
-      return SharePointCloud.GCC;
-    }
-    if (hostname.includes('.sharepoint.cn')) {
-      return SharePointCloud.China;
-    }
-
-    return SharePointCloud.Unknown;
+    return detectCloudFromHostname(hostname);
   }
 
   /**

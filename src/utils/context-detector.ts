@@ -1,8 +1,7 @@
 /**
  * SharePoint Context Detector
  * Parses URLs and page state to extract SharePoint context information
- * Part of Issue #3 (SharePoint Context Detection) and Issue #5 (Link Resolution Engine)
- * Enhanced with Issue #13: Multi-Tenant Support
+ * SharePoint context detection with multi-tenant support.
  */
 
 import {
@@ -13,6 +12,7 @@ import {
 } from '../types/sharepoint-context';
 import { tenantManager } from '../managers/tenant-manager';
 import { Tenant } from '../types/tenant';
+import { isSharePointHostname } from './sharepoint-clouds';
 
 /**
  * Detects SharePoint context from a given URL
@@ -72,12 +72,7 @@ export function isSharePointUrl(url: string): boolean {
     const hostname = urlObj.hostname.toLowerCase();
 
     // Check for SharePoint Online patterns
-    return (
-      hostname.includes('.sharepoint.com') ||
-      hostname.includes('.sharepoint-df.com') || // GCC High
-      hostname.includes('.sharepoint.us') || // GCC
-      hostname.endsWith('.sharepoint.cn') // China
-    );
+    return isSharePointHostname(hostname);
   } catch {
     return false;
   }
@@ -321,7 +316,6 @@ export function getCurrentContext(): SharePointContext {
 
 /**
  * Detects SharePoint context with tenant management integration
- * Issue #13: Multi-Tenant Support
  *
  * This function combines context detection with automatic tenant registration
  * when auto-detection is enabled.
@@ -350,7 +344,6 @@ export async function detectContextWithTenant(
 /**
  * Gets the current context with tenant information
  * Convenience function for browser context with tenant management
- * Issue #13: Multi-Tenant Support
  */
 export async function getCurrentContextWithTenant(): Promise<{
   context: SharePointContext;
@@ -365,7 +358,6 @@ export async function getCurrentContextWithTenant(): Promise<{
 
 /**
  * Validates if the current context is on a known tenant
- * Issue #13: Multi-Tenant Support
  *
  * @param context - SharePoint context to validate
  * @returns true if the tenant is registered, false otherwise

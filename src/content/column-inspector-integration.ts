@@ -5,6 +5,7 @@
 
 import { ColumnInspector } from '../ui/column-inspector';
 import { ColumnFetcher } from '../api/column-fetcher';
+import { isSharePointUrl } from '../utils/sharepoint-clouds';
 
 export class ColumnInspectorIntegration {
   private inspector: ColumnInspector | null = null;
@@ -36,7 +37,7 @@ export class ColumnInspectorIntegration {
    */
   private isSharePointPage(): boolean {
     const url = window.location.href;
-    return url.includes('.sharepoint.com') || url.includes('.sharepoint-df.com');
+    return isSharePointUrl(url);
   }
 
   /**

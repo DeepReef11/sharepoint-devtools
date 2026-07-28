@@ -17,6 +17,7 @@ import {
   setCachedListId,
 } from '../context/sharepoint-context';
 import { getSiteListsAndLibraries, SiteListInfo } from '../api/sharepoint-api';
+import { getTenantAdminUrl } from '../utils/sharepoint-clouds';
 import {
   getUserFriendlyErrorMessage,
   logError,
@@ -256,16 +257,8 @@ function getCurrentPlaceholders(): PlaceholderValues {
     const url = new URL(window.location.origin);
     const hostname = url.hostname;
 
-    // Check if it's a SharePoint Online URL
-    if (hostname.includes('.sharepoint.com')) {
-      // Extract tenant name (e.g., "contoso" from "contoso.sharepoint.com")
-      const tenantName = hostname.split('.')[0];
-      tenantAdminUrl = `https://${tenantName}-admin.sharepoint.com`;
-    } else if (hostname.includes('.sharepoint-df.com')) {
-      // Handle GCC/DoD environments
-      const tenantName = hostname.split('.')[0];
-      tenantAdminUrl = `https://${tenantName}-admin.sharepoint-df.com`;
-    }
+    // Resolves the admin centre for whichever cloud this tenant lives in.
+    tenantAdminUrl = getTenantAdminUrl(hostname);
   } catch (error) {
     console.error('Error extracting tenant admin URL:', error);
   }

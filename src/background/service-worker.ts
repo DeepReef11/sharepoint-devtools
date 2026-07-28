@@ -3,6 +3,7 @@
  * Handles keyboard shortcuts and extension lifecycle
  */
 
+import { isSharePointUrl } from '../utils/sharepoint-clouds';
 console.log('SharePoint DevTools - Background Service Worker initialized');
 
 // Keyboard shortcut handler
@@ -21,7 +22,7 @@ chrome.commands.onCommand.addListener(async (command) => {
 
       // Check if it's a SharePoint page
       const url = tab.url || '';
-      const isSharePoint = url.includes('.sharepoint.com') || url.includes('.sharepoint-df.com');
+      const isSharePoint = isSharePointUrl(url);
 
       if (!isSharePoint) {
         console.log('Not a SharePoint page, ignoring shortcut');

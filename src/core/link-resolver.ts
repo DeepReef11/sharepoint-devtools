@@ -1,6 +1,6 @@
 /**
  * Link Resolution Engine
- * Core engine for Issue #5: Link Resolution Engine
+ * Core engine for link resolution
  *
  * Responsibilities:
  * 1. Placeholder replacement for {webUrl}, {siteUrl}, {listId}, etc.

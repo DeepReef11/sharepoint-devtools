@@ -3,6 +3,7 @@
  * Extracts and manages SharePoint context information from the current page
  */
 
+import { isSharePointUrl as isSharePointUrlHelper } from '../utils/sharepoint-clouds';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface SharePointContext {
@@ -20,7 +21,7 @@ export interface SharePointContext {
  */
 export function isSharePointPage(): boolean {
   const url = window.location.href;
-  return url.includes('.sharepoint.com') || url.includes('.sharepoint-df.com');
+  return isSharePointUrlHelper(url);
 }
 
 /**

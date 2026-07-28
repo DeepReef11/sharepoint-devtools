@@ -10,7 +10,10 @@
   ],
   "host_permissions": [
     "https://*.sharepoint.com/*",
-    "https://*.sharepoint-df.com/*"
+    "https://*.sharepoint-df.com/*",
+    "https://*.sharepoint.us/*",
+    "https://*.sharepoint-mil.us/*",
+    "https://*.sharepoint.cn/*"
   ],
   "background": {
     "service_worker": "background.js",
@@ -20,7 +23,10 @@
     {
       "matches": [
         "https://*.sharepoint.com/*",
-        "https://*.sharepoint-df.com/*"
+        "https://*.sharepoint-df.com/*",
+        "https://*.sharepoint.us/*",
+        "https://*.sharepoint-mil.us/*",
+        "https://*.sharepoint.cn/*"
       ],
       "js": [
         "vendors.js",

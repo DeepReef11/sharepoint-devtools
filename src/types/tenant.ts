@@ -1,6 +1,5 @@
 /**
  * Multi-tenant support type definitions
- * Issue #13: Multi-Tenant Support
  */
 
 /**
@@ -84,10 +83,19 @@ export interface TenantStorageData {
  * Cloud environments for SharePoint
  */
 export enum SharePointCloud {
-  Commercial = 'commercial', // *.sharepoint.com
-  GCCHigh = 'gcc-high', // *.sharepoint-df.com
-  GCC = 'gcc', // *.sharepoint.us
-  China = 'china', // *.sharepoint.cn
+  /**
+   * *.sharepoint.com — also serves GCC tenants, which are not distinguishable
+   * from commercial ones by hostname.
+   */
+  Commercial = 'commercial',
+  /** *.sharepoint.us */
+  GCCHigh = 'gcc-high',
+  /** *.sharepoint-mil.us */
+  DoD = 'dod',
+  /** *.sharepoint.cn (operated by 21Vianet) */
+  China = 'china',
+  /** *.sharepoint-df.com — Microsoft-internal first-release ring */
+  Dogfood = 'dogfood',
   Unknown = 'unknown',
 }
 
