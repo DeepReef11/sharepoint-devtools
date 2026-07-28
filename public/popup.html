@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SharePoint DevTools</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 320px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0078D4 0%, #106EBE 100%);
+      color: white;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: #0078D4;
+    }
+
+    p {
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      opacity: 0.95;
+    }
+
+    .shortcuts {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .shortcuts h2 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+
+    .shortcut {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 12px;
+    }
+
+    .shortcut-key {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .warning {
+      background: rgba(255, 200, 0, 0.2);
+      border-left: 3px solid #FFC107;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .warning strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .button {
+      width: 100%;
+      padding: 10px;
+      background: white;
+      color: #0078D4;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.2s;
+      margin-bottom: 8px;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .status {
+      font-size: 11px;
+      text-align: center;
+      opacity: 0.7;
+      margin-top: 12px;
+    }
+
+    .status.active {
+      color: #90EE90;
+      font-weight: 600;
+    }
+
+    .status.inactive {
+      color: #FFB6C1;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    <span class="logo">SP</span>
+    SharePoint DevTools
+  </h1>
+
+  <p>Quick navigation and metadata inspection for SharePoint sites.</p>
+
+  <div class="warning">
+    <strong>⚠️ Important:</strong>
+    This extension only works on SharePoint pages (*.sharepoint.com)
+  </div>
+
+  <div class="shortcuts">
+    <h2>Keyboard Shortcuts</h2>
+    <div class="shortcut">
+      <span>QuickNav Modal</span>
+      <span class="shortcut-key">Ctrl+K or Alt+N</span>
+    </div>
+    <div class="shortcut">
+      <span>Lists & Libraries</span>
+      <span class="shortcut-key">Ctrl+L or Alt+O</span>
+    </div>
+    <div class="shortcut">
+      <span>Column Inspector</span>
+      <span class="shortcut-key">Alt+C</span>
+    </div>
+    <div class="shortcut">
+      <span>Object Inspector</span>
+      <span class="shortcut-key">Alt+I</span>
+    </div>
+  </div>
+
+  <button class="button" id="openQuickNav">
+    🚀 Open QuickNav (Ctrl+K)
+  </button>
+
+  <button class="button button-secondary" id="openOptions">
+    ⚙️ Settings
+  </button>
+
+  <div class="status" id="status">
+    Loading...
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

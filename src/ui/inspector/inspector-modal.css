@@ -1,0 +1,525 @@
+/**
+ * SharePoint Object Inspector Modal Styles
+ */
+
+/* Overlay */
+.sp-inspector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sp-inspector-overlay.visible {
+  opacity: 1;
+}
+
+/* Modal Container */
+.sp-inspector-modal {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 900px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.9);
+  opacity: 0;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.sp-inspector-modal.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Header */
+.sp-inspector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sp-inspector-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.sp-inspector-close {
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.sp-inspector-close:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Body */
+.sp-inspector-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Search Section (placeholder) */
+.sp-inspector-search-section {
+  margin-bottom: 24px;
+}
+
+.sp-inspector-search-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.sp-inspector-search-input:focus {
+  outline: none;
+  border-color: #0078d4;
+  box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.1);
+}
+
+.sp-inspector-search-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Inspector Section */
+.sp-inspector-inspector-section {
+  margin-top: 24px;
+}
+
+/* Object Inspector Styles */
+.sp-inspector-wrapper {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.sp-inspector-title {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.sp-inspector-context {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.sp-context-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #0078d4;
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Loading State */
+.sp-inspector-loading {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.sp-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #0078d4;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error State */
+.sp-inspector-error {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.sp-error-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.sp-error-message {
+  color: #d13438;
+  font-size: 14px;
+}
+
+/* Tabs */
+.sp-inspector-tabs {
+  margin-top: 16px;
+}
+
+.sp-tab-buttons {
+  display: flex;
+  gap: 4px;
+  border-bottom: 2px solid #e0e0e0;
+  margin-bottom: 16px;
+}
+
+.sp-tab-button {
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.sp-tab-button:hover {
+  color: #0078d4;
+}
+
+.sp-tab-button.active {
+  color: #0078d4;
+  border-bottom-color: #0078d4;
+}
+
+.sp-tab-content {
+  display: none;
+}
+
+.sp-tab-content.active {
+  display: block;
+}
+
+/* Metadata Section */
+.sp-metadata-section {
+  background: white;
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.sp-metadata-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px 16px;
+  margin: 0;
+}
+
+.sp-metadata-list dt {
+  font-weight: 600;
+  color: #666;
+  font-size: 13px;
+}
+
+.sp-metadata-list dd {
+  margin: 0;
+  color: #333;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sp-metadata-value {
+  flex: 1;
+  word-break: break-all;
+}
+
+/* Copy Button */
+.sp-btn-copy {
+  background: #f0f0f0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.sp-btn-copy:hover {
+  background: #e0e0e0;
+  border-color: #d0d0d0;
+}
+
+.sp-btn-copy.copied {
+  background: #107c10;
+  border-color: #107c10;
+  color: white;
+}
+
+.sp-btn-copy.copy-failed {
+  background: #d13438;
+  border-color: #d13438;
+  color: white;
+}
+
+/* Fields Section */
+.sp-fields-section {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.sp-field-filter {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.sp-field-filter:focus {
+  outline: none;
+  border-color: #0078d4;
+  box-shadow: 0 0 0 2px rgba(0, 120, 212, 0.1);
+}
+
+.sp-fields-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.sp-fields-table thead {
+  background: #f5f5f5;
+  position: sticky;
+  top: 0;
+}
+
+.sp-fields-table th {
+  text-align: left;
+  padding: 8px;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.sp-fields-table td {
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.sp-fields-table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.sp-field-internal code {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  color: #d63384;
+}
+
+.sp-type-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background: #e3f2fd;
+  color: #1976d2;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.sp-field-required {
+  color: #107c10;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Content Types Section */
+.sp-content-types-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sp-content-type-item {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.sp-ct-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.sp-ct-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.sp-ct-details {
+  font-size: 12px;
+  color: #666;
+}
+
+.sp-ct-details p {
+  margin: 4px 0;
+}
+
+.sp-ct-details code {
+  background: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  color: #d63384;
+  word-break: break-all;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .sp-inspector-modal {
+    background: #2b2b2b;
+    color: #e0e0e0;
+  }
+
+  .sp-inspector-header {
+    border-bottom-color: #444;
+  }
+
+  .sp-inspector-title {
+    color: #e0e0e0;
+  }
+
+  .sp-inspector-close {
+    color: #aaa;
+  }
+
+  .sp-inspector-close:hover {
+    background-color: #444;
+    color: #fff;
+  }
+
+  .sp-inspector-search-input {
+    background: #1e1e1e;
+    border-color: #444;
+    color: #e0e0e0;
+  }
+
+  .sp-inspector-search-input:disabled {
+    background-color: #333;
+  }
+
+  .sp-inspector-wrapper {
+    background: #1e1e1e;
+  }
+
+  .sp-inspector-title {
+    color: #e0e0e0;
+  }
+
+  .sp-metadata-section {
+    background: #2b2b2b;
+  }
+
+  .sp-metadata-list dt {
+    color: #aaa;
+  }
+
+  .sp-metadata-list dd {
+    color: #e0e0e0;
+  }
+
+  .sp-btn-copy {
+    background: #444;
+    border-color: #555;
+    color: #e0e0e0;
+  }
+
+  .sp-btn-copy:hover {
+    background: #555;
+    border-color: #666;
+  }
+
+  .sp-fields-table thead {
+    background: #333;
+  }
+
+  .sp-fields-table th {
+    color: #aaa;
+    border-bottom-color: #444;
+  }
+
+  .sp-fields-table td {
+    border-bottom-color: #333;
+  }
+
+  .sp-fields-table tbody tr:hover {
+    background: #333;
+  }
+
+  .sp-field-internal code {
+    background: #333;
+    color: #ff79c6;
+  }
+
+  .sp-content-type-item {
+    background: #2b2b2b;
+    border-color: #444;
+  }
+
+  .sp-ct-name {
+    color: #e0e0e0;
+  }
+
+  .sp-ct-details {
+    color: #aaa;
+  }
+
+  .sp-ct-details code {
+    background: #333;
+    color: #ff79c6;
+  }
+}

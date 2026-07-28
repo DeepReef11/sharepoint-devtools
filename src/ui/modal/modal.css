@@ -1,0 +1,450 @@
+/**
+ * SharePoint DevTools Modal Styles
+ * Supports both light and dark modes
+ */
+
+/* Overlay */
+.spqn-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  opacity: 0;
+  animation: spqn-fadeIn 0.15s ease-out forwards;
+}
+
+@keyframes spqn-fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.spqn-overlay.spqn-closing {
+  animation: spqn-fadeOut 0.15s ease-out forwards;
+}
+
+@keyframes spqn-fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Modal Container */
+.spqn-modal {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 640px;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.95);
+  animation: spqn-scaleIn 0.15s ease-out forwards;
+}
+
+@keyframes spqn-scaleIn {
+  to {
+    transform: scale(1);
+  }
+}
+
+.spqn-overlay.spqn-closing .spqn-modal {
+  animation: spqn-scaleOut 0.15s ease-out forwards;
+}
+
+@keyframes spqn-scaleOut {
+  to {
+    transform: scale(0.95);
+  }
+}
+
+/* Header */
+.spqn-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.spqn-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Search Input */
+.spqn-search-container {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.spqn-search-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  outline: none;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.spqn-search-input:focus {
+  border-color: #0078d4;
+}
+
+.spqn-search-input::placeholder {
+  color: #999999;
+}
+
+/* Results Container */
+.spqn-results-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.spqn-results-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.spqn-results-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.spqn-results-container::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 4px;
+}
+
+.spqn-results-container::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+/* Category Group */
+.spqn-category-group {
+  margin-bottom: 12px;
+}
+
+.spqn-category-header {
+  padding: 8px 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  position: sticky;
+  top: 0;
+  background-color: #f8f8f8;
+  z-index: 1;
+}
+
+/* Result Item */
+.spqn-result-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.spqn-result-item:hover,
+.spqn-result-item.spqn-selected {
+  background-color: #f0f0f0;
+}
+
+.spqn-result-item.spqn-selected {
+  background-color: #e8f4fd;
+}
+
+.spqn-result-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+  margin: 0 0 4px 0;
+}
+
+.spqn-result-description {
+  font-size: 12px;
+  color: #666666;
+  margin: 0;
+}
+
+/* States */
+.spqn-state-container {
+  padding: 40px 20px;
+  text-align: center;
+  color: #666666;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.spqn-state-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.spqn-state-message {
+  font-size: 14px;
+  color: #666666;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+/* Loading State */
+.spqn-loading .spqn-state-icon {
+  animation: spqn-spin 1s linear infinite;
+}
+
+@keyframes spqn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error State */
+.spqn-error .spqn-state-message {
+  color: #d83b01;
+}
+
+.spqn-error-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #d83b01;
+  margin-bottom: 12px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.spqn-error-details {
+  font-size: 12px;
+  color: #999999;
+  margin-top: 8px;
+  font-style: italic;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.spqn-retry-button {
+  margin-top: 16px;
+  padding: 8px 16px;
+  background-color: #0078d4;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: background-color 0.2s ease;
+}
+
+.spqn-retry-button:hover {
+  background-color: #005a9e;
+}
+
+.spqn-retry-button:active {
+  background-color: #004578;
+}
+
+.spqn-error-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  justify-content: center;
+}
+
+.spqn-close-button {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  color: #333333;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: background-color 0.2s ease;
+}
+
+.spqn-close-button:hover {
+  background-color: #e0e0e0;
+}
+
+.spqn-close-button:active {
+  background-color: #d0d0d0;
+}
+
+/* Empty State */
+.spqn-empty .spqn-state-message {
+  color: #999999;
+}
+
+/* Footer */
+.spqn-footer {
+  padding: 12px 20px;
+  border-top: 1px solid #e0e0e0;
+  font-size: 11px;
+  color: #999999;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spqn-keyboard-hint {
+  display: flex;
+  gap: 16px;
+}
+
+.spqn-keyboard-hint span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.spqn-key {
+  display: inline-block;
+  padding: 2px 6px;
+  background-color: #f0f0f0;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  font-size: 10px;
+  font-family: monospace;
+  font-weight: 600;
+}
+
+/* Dark Mode */
+.spqn-dark-mode .spqn-modal {
+  background-color: #1e1e1e;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7);
+}
+
+.spqn-dark-mode .spqn-header,
+.spqn-dark-mode .spqn-search-container,
+.spqn-dark-mode .spqn-footer {
+  border-color: #3e3e3e;
+}
+
+.spqn-dark-mode .spqn-title {
+  color: #e0e0e0;
+}
+
+.spqn-dark-mode .spqn-search-input {
+  background-color: #2d2d2d;
+  border-color: #3e3e3e;
+  color: #e0e0e0;
+}
+
+.spqn-dark-mode .spqn-search-input:focus {
+  border-color: #0078d4;
+}
+
+.spqn-dark-mode .spqn-search-input::placeholder {
+  color: #6d6d6d;
+}
+
+.spqn-dark-mode .spqn-category-header {
+  color: #a0a0a0;
+  background-color: #252525;
+}
+
+.spqn-dark-mode .spqn-result-item:hover {
+  background-color: #2d2d2d;
+}
+
+.spqn-dark-mode .spqn-result-item.spqn-selected {
+  background-color: #1a3a52;
+}
+
+.spqn-dark-mode .spqn-result-title {
+  color: #e0e0e0;
+}
+
+.spqn-dark-mode .spqn-result-description {
+  color: #a0a0a0;
+}
+
+.spqn-dark-mode .spqn-state-message {
+  color: #a0a0a0;
+}
+
+.spqn-dark-mode .spqn-error .spqn-state-message {
+  color: #f48771;
+}
+
+.spqn-dark-mode .spqn-error-title {
+  color: #f48771;
+}
+
+.spqn-dark-mode .spqn-error-details {
+  color: #6d6d6d;
+}
+
+.spqn-dark-mode .spqn-retry-button {
+  background-color: #0078d4;
+}
+
+.spqn-dark-mode .spqn-retry-button:hover {
+  background-color: #005a9e;
+}
+
+.spqn-dark-mode .spqn-retry-button:active {
+  background-color: #004578;
+}
+
+.spqn-dark-mode .spqn-close-button {
+  background-color: #2d2d2d;
+  border-color: #3e3e3e;
+  color: #e0e0e0;
+}
+
+.spqn-dark-mode .spqn-close-button:hover {
+  background-color: #3e3e3e;
+}
+
+.spqn-dark-mode .spqn-close-button:active {
+  background-color: #4e4e4e;
+}
+
+.spqn-dark-mode .spqn-footer {
+  color: #6d6d6d;
+}
+
+.spqn-dark-mode .spqn-key {
+  background-color: #2d2d2d;
+  border-color: #3e3e3e;
+  color: #e0e0e0;
+}
+
+.spqn-dark-mode .spqn-results-container::-webkit-scrollbar-thumb {
+  background: #3e3e3e;
+}
+
+.spqn-dark-mode .spqn-results-container::-webkit-scrollbar-thumb:hover {
+  background: #4e4e4e;
+}
+
+/* Utility Classes */
+.spqn-hidden {
+  display: none !important;
+}

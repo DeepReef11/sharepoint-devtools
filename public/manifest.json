@@ -1,0 +1,61 @@
+{
+  "manifest_version": 3,
+  "name": "DevTools for SharePoint",
+  "version": "1.0.0",
+  "description": "Keyboard-driven navigation and metadata inspectors for SharePoint Online.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*.sharepoint.com/*",
+    "https://*.sharepoint-df.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.sharepoint.com/*",
+        "https://*.sharepoint-df.com/*"
+      ],
+      "js": [
+        "vendors.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "toggle-quicknav": {
+      "suggested_key": {
+        "default": "Alt+N",
+        "mac": "Alt+N"
+      },
+      "description": "Toggle SharePoint DevTools modal"
+    },
+    "toggle-lists": {
+      "suggested_key": {
+        "default": "Alt+O",
+        "mac": "Alt+O"
+      },
+      "description": "Toggle Lists & Libraries navigation"
+    }
+  },
+  "action": {
+    "default_title": "DevTools for SharePoint",
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

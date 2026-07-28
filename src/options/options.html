@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SharePoint DevTools - Custom Links</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>SharePoint DevTools - Custom Links Management</h1>
+        <p class="subtitle">Manage your custom SharePoint navigation links</p>
+      </header>
+
+      <div class="content">
+        <!-- Statistics Section -->
+        <section class="stats-section">
+          <div class="stat-card">
+            <div class="stat-value" id="linkCount">0</div>
+            <div class="stat-label">Custom Links</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="storageUsed">0 KB</div>
+            <div class="stat-label">Storage Used</div>
+          </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="actions-section">
+          <button id="addLinkBtn" class="btn btn-primary">
+            <span class="icon">+</span> Add New Link
+          </button>
+          <button id="importBtn" class="btn btn-secondary">
+            <span class="icon">📥</span> Import
+          </button>
+          <button id="exportBtn" class="btn btn-secondary">
+            <span class="icon">📤</span> Export
+          </button>
+          <button id="clearAllBtn" class="btn btn-danger">
+            <span class="icon">🗑️</span> Clear All
+          </button>
+        </section>
+
+        <!-- Links List -->
+        <section class="links-section">
+          <h2>Your Custom Links</h2>
+          <div id="linksContainer" class="links-container">
+            <!-- Links will be rendered here -->
+            <div class="empty-state" id="emptyState">
+              <p>No custom links yet. Click "Add New Link" to create your first link!</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Add/Edit Link Modal -->
+      <div id="linkModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 id="modalTitle">Add New Link</h2>
+            <button class="close-btn" id="closeModal">&times;</button>
+          </div>
+          <form id="linkForm" class="modal-body">
+            <div class="form-group">
+              <label for="linkId">Link ID *</label>
+              <input
+                type="text"
+                id="linkId"
+                name="id"
+                placeholder="e.g., my-custom-link"
+                required
+              />
+              <small>Unique identifier (lowercase, hyphens allowed)</small>
+            </div>
+
+            <div class="form-group">
+              <label for="linkTitle">Title *</label>
+              <input
+                type="text"
+                id="linkTitle"
+                name="title"
+                placeholder="e.g., My Custom Settings Page"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="linkUrlTemplate">URL Template *</label>
+              <input
+                type="text"
+                id="linkUrlTemplate"
+                name="urlTemplate"
+                placeholder="e.g., {webUrl}/_layouts/15/custom.aspx"
+                required
+              />
+              <small
+                >Use placeholders: {webUrl}, {siteUrl}, {listId}, {listUrl}</small
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="linkCategory">Category *</label>
+              <select id="linkCategory" name="category" required>
+                <option value="">Select a category...</option>
+                <option value="Site Admin">Site Admin</option>
+                <option value="Content">Content</option>
+                <option value="Navigation">Navigation</option>
+                <option value="Design">Design</option>
+                <option value="Development">Development</option>
+                <option value="Modern Admin">Modern Admin</option>
+                <option value="List/Library Settings">List/Library Settings</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="linkDescription">Description *</label>
+              <textarea
+                id="linkDescription"
+                name="description"
+                placeholder="Describe what this link does..."
+                rows="3"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="linkKeywords">Keywords (comma-separated)</label>
+              <input
+                type="text"
+                id="linkKeywords"
+                name="keywords"
+                placeholder="e.g., settings, config, custom"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="linkPriority">Priority (optional)</label>
+              <input
+                type="number"
+                id="linkPriority"
+                name="priority"
+                placeholder="Lower number = higher priority"
+                min="0"
+              />
+            </div>
+
+            <!-- Context Options -->
+            <div class="form-group">
+              <label>Context Requirements</label>
+              <div class="checkbox-group">
+                <label>
+                  <input type="checkbox" id="requiresList" name="requiresList" />
+                  Requires List/Library Context
+                </label>
+                <label>
+                  <input type="checkbox" id="requiresSiteAdmin" name="requiresSiteAdmin" />
+                  Requires Site Admin
+                </label>
+                <label>
+                  <input
+                    type="checkbox"
+                    id="requiresTenantAdmin"
+                    name="requiresTenantAdmin"
+                  />
+                  Requires Tenant Admin
+                </label>
+                <label>
+                  <input type="checkbox" id="modernOnly" name="modernOnly" />
+                  Modern SharePoint Only
+                </label>
+                <label>
+                  <input type="checkbox" id="classicOnly" name="classicOnly" />
+                  Classic SharePoint Only
+                </label>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+              <button type="button" class="btn btn-secondary" id="testLinkBtn">
+                Test Link
+              </button>
+              <button type="submit" class="btn btn-primary" id="saveLinkBtn">Save Link</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Import Modal -->
+      <div id="importModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Import Custom Links</h2>
+            <button class="close-btn" id="closeImportModal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Import Mode</label>
+              <div class="radio-group">
+                <label>
+                  <input type="radio" name="importMode" value="replace" checked />
+                  Replace all existing links
+                </label>
+                <label>
+                  <input type="radio" name="importMode" value="merge" />
+                  Merge with existing links (update duplicates)
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="importFile">Choose JSON file</label>
+              <input type="file" id="importFile" accept=".json" />
+            </div>
+
+            <div class="form-group">
+              <label for="importJson">Or paste JSON data</label>
+              <textarea
+                id="importJson"
+                placeholder="Paste your JSON data here..."
+                rows="10"
+              ></textarea>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" id="cancelImportBtn">
+                Cancel
+              </button>
+              <button type="button" class="btn btn-primary" id="executeImportBtn">
+                Import Links
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Toast -->
+      <div id="notification" class="notification"></div>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
