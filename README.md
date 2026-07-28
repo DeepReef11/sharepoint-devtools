@@ -7,10 +7,11 @@ assignments — without opening a settings page or a PowerShell console.
 Built for developers, admins and power users who spend their day in SharePoint and know exactly
 where they want to go.
 
-![Column Inspector: pressing Alt+C opens a panel showing each column's internal name, type and GUID, then a link jumps straight to that column's settings page](docs/media/column-inspector.gif)
+![Column Inspector: pressing Alt+C opens a panel listing each column's internal name, type and GUID; clicking Edit Column opens that column's settings page directly](docs/media/column-inspector.gif)
 
-<sub><b>Column Inspector (`Alt+C`)</b> — internal names, types and GUIDs for every column, and a
-one-click jump to a column's settings page that normally takes four or five clicks to reach.</sub>
+<sub><b>Column Inspector (`Alt+C`)</b> — internal names, types and GUIDs for every column. Clicking
+<b>Edit Column</b> lands directly on that column's settings page, which otherwise takes four or five
+clicks to reach.</sub>
 
 ## Features
 
