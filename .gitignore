@@ -140,3 +140,9 @@ vite.config.ts.timestamp-*
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Local media scratch (demo recordings — do not commit, they bloat clones forever)
+temp/
+*.mp4
+*.mov
+*.webm
