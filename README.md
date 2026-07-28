@@ -39,7 +39,14 @@ type.</sub>
 - **Object Inspector (`Alt+I`)** — site, web, list, field and content-type metadata
 - **Permission Inspector (`Alt+P`)** — role assignments, SharePoint groups with expandable
   membership, and permission-level definitions
+- **Deep links out** — jump straight from a column to its settings page, or from the permissions
+  panel to site permissions, skipping the four or five clicks SharePoint normally needs
 - **Copy-to-clipboard** on every GUID, internal name and field value
+
+![Permission Inspector: pressing Alt+P opens a panel with role assignments, SharePoint groups and permission levels, then links out to the site permissions page](docs/media/permission-inspector.gif)
+
+<sub><b>Permission Inspector (`Alt+P`)</b> — who has access, which groups exist and what each
+permission level actually grants, across three tabs.</sub>
 
 Everything is read-only. Where a change is needed, the inspectors link out to SharePoint's own
 settings pages.
