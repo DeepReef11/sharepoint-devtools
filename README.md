@@ -7,6 +7,11 @@ assignments — without opening a settings page or a PowerShell console.
 Built for developers, admins and power users who spend their day in SharePoint and know exactly
 where they want to go.
 
+![Column Inspector: pressing Alt+C opens a panel showing each column's internal name, type and GUID, then a link jumps straight to that column's settings page](docs/media/column-inspector.gif)
+
+<sub><b>Column Inspector (`Alt+C`)</b> — internal names, types and GUIDs for every column, and a
+one-click jump to a column's settings page that normally takes four or five clicks to reach.</sub>
+
 ## Features
 
 ### Navigation
@@ -20,6 +25,11 @@ where they want to go.
 - **Multi-cloud** — commercial and GCC (`*.sharepoint.com`), GCC High (`*.sharepoint.us`), DoD
   (`*.sharepoint-mil.us`) and China/21Vianet (`*.sharepoint.cn`). Only the commercial cloud has been
   tested against a live tenant; the others are wired up but unverified.
+
+![Lists and Libraries navigator: pressing Alt+O opens a searchable list of every list and library in the site, filtering as you type](docs/media/lists-navigator.gif)
+
+<sub><b>Lists &amp; Libraries (`Alt+O`)</b> — every list and library in the site, filtered as you
+type.</sub>
 
 ### Inspectors
 
