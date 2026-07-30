@@ -4,6 +4,8 @@
 export enum Placeholder {
   WebUrl = '{webUrl}',
   SiteUrl = '{siteUrl}',
+  ServerUrl = '{serverUrl}',
+  TenantAdminUrl = '{tenantAdminUrl}',
   ListId = '{listId}',
   ListUrl = '{listUrl}',
 }

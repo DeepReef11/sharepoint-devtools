@@ -56,6 +56,10 @@ export class LinkTemplateEngine {
         return values.webUrl || null;
       case Placeholder.SiteUrl:
         return values.siteUrl || null;
+      case Placeholder.ServerUrl:
+        return values.serverUrl || null;
+      case Placeholder.TenantAdminUrl:
+        return values.tenantAdminUrl || null;
       case Placeholder.ListId:
         return values.listId || null;
       case Placeholder.ListUrl:
