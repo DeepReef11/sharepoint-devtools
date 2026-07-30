@@ -156,6 +156,25 @@ describe('PermissionInspector keyboard handling', () => {
     expect(event.defaultPrevented).toBe(true);
   });
 
+  it('closes on Escape when the filter matches nothing', async () => {
+    const inspector = await openInspector();
+
+    // Filter to something no principal matches, so the card list empties.
+    const search = document.getElementById('sp-perm-inspector-search') as HTMLInputElement;
+    search.value = 'zzzz-no-such-principal';
+    search.dispatchEvent(new Event('input', { bubbles: true }));
+    await new Promise((r) => setTimeout(r, 50));
+    expect(document.querySelectorAll('#sp-perm-inspector-data .sp-perm-card').length).toBe(0);
+
+    // With no cards the handler used to return before reaching the Escape case,
+    // leaving the panel open with no keyboard way out.
+    const panel = document.getElementById('sp-permission-inspector') as HTMLElement;
+    panel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+
+    expect(panel.style.display).toBe('none');
+    expect(inspector).toBeDefined();
+  });
+
   it('does not hijack Space on the focused link either', async () => {
     await openInspector();
 
