@@ -4,7 +4,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   roots: ['<rootDir>/tests'],
   testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
-  testPathIgnorePatterns: ['/node_modules/'],
+  testPathIgnorePatterns: ['/node_modules/', '/tests/e2e/'],
   // tests/setup.ts installs shared console mocks; without this they accumulate
   // calls across tests in a file and assertions see the previous test's output.
   clearMocks: true,

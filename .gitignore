@@ -146,3 +146,6 @@ temp/
 *.mp4
 *.mov
 *.webm
+
+# e2e artifacts and session state (never commit — contains auth cookies)
+tests/e2e/artifacts/
