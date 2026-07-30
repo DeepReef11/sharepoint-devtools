@@ -5,6 +5,7 @@
 
 import { describe, it, expect, beforeEach } from '@jest/globals';
 import { createFuzzySearch, FuzzySearchService } from '../src/links/fuzzy-search';
+import { SHAREPOINT_LINKS } from '../src/links/registry';
 import { SharePointLink, LinkCategory } from '../src/links/types';
 
 describe('FuzzySearchService', () => {
@@ -81,6 +82,45 @@ describe('FuzzySearchService', () => {
     it('should return no results for non-existent terms', () => {
       const results = searchService.search('xyz123nonexistent');
       expect(results).toEqual([]);
+    });
+
+    // "xyz123nonexistent" above is long and shares no run of letters with
+    // anything, so it clears the bar however loose the matcher is. The case
+    // that actually breaks is an ordinary short word that happens to overlap
+    // one: "zebra" contains "bra", which sits inside "library".
+    it('rejects an unrelated word that overlaps a keyword', () => {
+      const results = searchService.search('zebra');
+      expect(results).toEqual([]);
+    });
+  });
+
+  describe('Match precision against the shipped registry', () => {
+    // The registry is the data users search, and it is what made this visible:
+    // "zebra" returned 15 of its links, the best scoring 0.03 — better than
+    // most real matches.
+    const registry = () => createFuzzySearch(SHAREPOINT_LINKS);
+
+    it.each(['zebra', 'pizza', 'banana', 'qwerty', 'wombat'])(
+      'returns nothing for %p',
+      (query) => {
+        expect(registry().search(query, { limit: 20 })).toEqual([]);
+      }
+    );
+
+    // Tightening the threshold must not cost real matching. Each of these is
+    // something a user types: an exact word, two typos, and two prefixes.
+    it.each([
+      ['recycle', 'Recycle Bin'],
+      ['recyle', 'Recycle Bin'],
+      ['permisions', 'Site Permissions'],
+      ['colum', 'List Columns'],
+      ['versioning', 'Versioning Settings'],
+      ['term store', 'Term Store Management'],
+    ])('still finds %p', (query, expected) => {
+      const titles = registry()
+        .search(query, { limit: 20 })
+        .map((r) => r.item.title);
+      expect(titles).toContain(expected);
     });
   });
 
