@@ -61,6 +61,10 @@ module.exports = {
       patterns: [
         { from: 'public', to: '.' },
         { from: 'src/options/options.html', to: 'options.html' },
+        // options.html links this by relative path. Without it the whole page
+        // renders unstyled and, worse, `.modal { display: none }` never applies,
+        // so both dialogs sit permanently expanded in the page body.
+        { from: 'src/options/options.css', to: 'options.css' },
       ],
     }),
   ],
