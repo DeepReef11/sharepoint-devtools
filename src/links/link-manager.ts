@@ -9,9 +9,35 @@ import { logError, safely } from '../utils/error-handling';
  */
 export class LinkManager {
   private links: SharePointLink[];
+  private baseLinks: SharePointLink[];
+  private customLinkIds = new Set<string>();
 
   constructor(links: SharePointLink[] = SHAREPOINT_LINKS) {
     this.links = links;
+    this.baseLinks = links;
+  }
+
+  /**
+   * Merges the user's own links in alongside the built-in registry.
+   *
+   * Applied on top of the base registry rather than the current set, so calling
+   * it again after the user edits or deletes a link replaces the previous set
+   * instead of accumulating. A custom link sharing an id with a built-in wins —
+   * overriding a built-in destination is a reasonable thing to want, and two
+   * entries with one id would otherwise both appear.
+   *
+   * @param custom - Links loaded from storage
+   */
+  setCustomLinks(custom: SharePointLink[]): void {
+    this.customLinkIds = new Set(custom.map((link) => link.id));
+    this.links = [...this.baseLinks.filter((link) => !this.customLinkIds.has(link.id)), ...custom];
+  }
+
+  /**
+   * Whether a link came from the user rather than the built-in registry
+   */
+  isCustomLink(id: string): boolean {
+    return this.customLinkIds.has(id);
   }
 
   /**

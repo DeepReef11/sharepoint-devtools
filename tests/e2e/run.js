@@ -352,6 +352,56 @@ async function settleModal(page, { quietFor = 2, interval = 700, max = 20 } = {}
       await closePanels(page);
     });
 
+    // Custom links were stored and edited only by the options page and never
+    // read anywhere else, so a link the user created was invisible in the one
+    // place it existed for. Nothing caught it: storage worked, the options page
+    // listed it, and no test crossed from storage to palette.
+    await scenario('a custom link appears in QuickNav', async () => {
+      const link = {
+        id: 'e2e-custom-link',
+        title: 'Zulu Custom Destination',
+        urlTemplate: '{webUrl}/_layouts/15/viewlsts.aspx',
+        category: 'Content',
+        description: 'Written by the e2e suite',
+      };
+
+      // Written from the service worker, not the page: page.evaluate runs in
+      // the main world, which has no chrome.* — only the content script's
+      // isolated world and extension pages do.
+      await worker.evaluate(
+        (l) =>
+          chrome.storage.sync.set({
+            customLinks: { version: '1.0', links: [l], lastModified: new Date().toISOString() },
+          }),
+        link
+      );
+
+      try {
+        // The content script reloads on the storage change; give it a moment
+        // rather than reloading the page, so the listener is covered too.
+        await sleep(2000);
+        await pressAndExpect(page, 'Control+k', '.spqn-modal');
+        const all = await settleModal(page);
+
+        const titles = await page.locator('.spqn-result-item .spqn-result-title').allInnerTexts();
+        assert(
+          titles.includes(link.title),
+          `custom link missing from the default list of ${all} rows`
+        );
+
+        await page.locator('.spqn-search-input').fill('zulu');
+        await sleep(1500);
+        const found = await page.locator('.spqn-result-item .spqn-result-title').allInnerTexts();
+        assert(found.includes(link.title), `custom link not searchable (got: ${found.join(', ')})`);
+
+        await dismiss(page);
+        return `listed among ${all} rows and searchable`;
+      } finally {
+        await worker.evaluate(() => chrome.storage.sync.remove('customLinks'));
+        await sleep(1500);
+      }
+    });
+
     await scenario('content script stays off non-SharePoint pages', async () => {
       const offsite = await context.newPage();
       const offsiteLog = [];
