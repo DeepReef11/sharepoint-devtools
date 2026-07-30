@@ -602,6 +602,15 @@ export class PermissionInspector {
         return;
       }
 
+      // Focus can be on a natively activatable control this panel does not own.
+      // "Manage Permissions" lives in the info banner, outside any card, so the
+      // card model never focuses it and Tab is the only way to reach it — at
+      // which point hijacking Enter swallowed the activation and the link did
+      // nothing. Let the browser handle activation keys on real controls.
+      if ((e.key === 'Enter' || e.key === ' ') && target.closest('a[href], button') !== null) {
+        return;
+      }
+
       const tabs: ViewMode[] = ['assignments', 'groups', 'levels'];
       const currentTabIndex = tabs.indexOf(this.viewMode);
 
