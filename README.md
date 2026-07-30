@@ -49,10 +49,12 @@ type.</sub>
   panel to site permissions, skipping the four or five clicks SharePoint normally needs
 - **Copy-to-clipboard** on every GUID, internal name and field value
 
-![Permission Inspector: pressing Alt+P opens a panel with role assignments, SharePoint groups and permission levels, then links out to the site permissions page](docs/media/permission-inspector.gif)
+![Permission Inspector: pressing Alt+P opens a panel on a list with unique permissions, filtering to one SharePoint group reveals its membership, and Enter on Manage Permissions opens the site permissions page](docs/media/permission-inspector.gif)
 
 <sub><b>Permission Inspector (`Alt+P`)</b> — who has access, which groups exist and what each
-permission level actually grants, across three tabs.</sub>
+permission level actually grants, across three tabs. Here on a list with <b>unique permissions</b>:
+filter to a group to expand its membership, then <b>Enter</b> on <b>Manage Permissions</b> to land on
+SharePoint's own permissions page. Entirely keyboard-driven — no mouse.</sub>
 
 Everything is read-only. Where a change is needed, the inspectors link out to SharePoint's own
 settings pages.
