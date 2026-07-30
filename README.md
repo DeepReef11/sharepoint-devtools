@@ -27,6 +27,12 @@ clicks to reach.</sub>
   (`*.sharepoint-mil.us`) and China/21Vianet (`*.sharepoint.cn`). Only the commercial cloud has been
   tested against a live tenant; the others are wired up but unverified.
 
+![QuickNav: pressing Ctrl+K opens a search box over the page, typing filters the list of SharePoint destinations, and Enter navigates straight to the selected one](docs/media/quicknav.gif)
+
+<sub><b>QuickNav (`Ctrl+K`)</b> — type to filter every built-in destination, <b>Enter</b> to go.
+Results are scoped to where you already are, so a list page offers list settings and a site page
+does not.</sub>
+
 ![Lists and Libraries navigator: pressing Alt+O opens a searchable list of every list and library in the site, filtering as you type](docs/media/lists-navigator.gif)
 
 <sub><b>Lists &amp; Libraries (`Alt+O`)</b> — every list and library in the site, filtered as you
