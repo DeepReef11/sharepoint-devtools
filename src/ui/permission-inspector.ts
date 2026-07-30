@@ -589,6 +589,16 @@ export class PermissionInspector {
       const cards = Array.from(dataEl.querySelectorAll('.sp-perm-card'));
       const totalCards = cards.length;
 
+      // Escape does not depend on there being any cards, so it must be handled
+      // before the guard below. Filtering to something with no matches left the
+      // panel open with no way to close it from the keyboard at all.
+      if (e.key === 'Escape' && !this.innerNavigationMode) {
+        this.hide();
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
       if (totalCards === 0) return;
 
       let handled = false;
