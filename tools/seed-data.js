@@ -10,6 +10,22 @@
 // Dates are fixed rather than relative so re-runs stay comparable.
 const d = (s) => `${s}T12:00:00Z`;
 
+/**
+ * Principals that person columns and group membership are assigned to.
+ *
+ * These are deliberately fictional. Filling person columns from whichever real
+ * accounts the tenant happened to contain put colleagues' names into demo data
+ * and, from there, into screen recordings committed to this repo. The seeder
+ * creates nothing in the directory, so these accounts have to exist first — see
+ * tools/README.md. Any that cannot be resolved are skipped, and if none resolve
+ * the seeder falls back to the account it is running as.
+ */
+const PERSONAS = [
+  { alias: 'dana.reyes', name: 'Dana Reyes' },
+  { alias: 'marcus.webb', name: 'Marcus Webb' },
+  { alias: 'priya.nair', name: 'Priya Nair' },
+];
+
 const GROUPS = [
   {
     title: 'Project Managers',
@@ -21,14 +37,14 @@ const GROUPS = [
     title: 'Developers',
     description: 'Build team — contribute to backlog and docs',
     role: 'Contribute',
-    members: [0, 1],
+    members: [0, 1, 2],
     claimMembers: ['Everyone except external users'],
   },
   {
     title: 'QA Reviewers',
     description: 'Read-only access for verification passes',
     role: 'Read',
-    members: [1],
+    members: [1, 2],
     // A claims principal makes group membership look like a real tenant's and
     // gives the permission inspector's Groups tab something to expand into.
     claimMembers: ['Everyone except external users'],
@@ -37,7 +53,7 @@ const GROUPS = [
     title: 'Contract Auditors',
     description: 'Restricted group used to demonstrate unique permissions',
     role: 'Read',
-    members: [1],
+    members: [2],
   },
 ];
 
@@ -280,4 +296,4 @@ const LIBRARY = {
   ],
 };
 
-module.exports = { LISTS, LIBRARY, GROUPS, ANNOUNCEMENTS };
+module.exports = { LISTS, LIBRARY, GROUPS, ANNOUNCEMENTS, PERSONAS };

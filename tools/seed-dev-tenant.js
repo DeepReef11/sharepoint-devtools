@@ -22,11 +22,17 @@ const { spawnSync } = require('child_process');
 
 const { config, assertUsable } = require('../tests/e2e/config');
 const { ensureSignedIn } = require('../tests/e2e/auth');
-const { LISTS, LIBRARY, GROUPS, ANNOUNCEMENTS } = require('./seed-data');
+const { LISTS, LIBRARY, GROUPS, ANNOUNCEMENTS, PERSONAS } = require('./seed-data');
 
 // Headed browser needs a display; re-exec under Xvfb rather than making the
-// caller remember to.
-if (!process.env.DISPLAY && !process.env.SEED_XVFB_WRAPPED && process.platform === 'linux') {
+// caller remember to. Only when run as a script: this module also exports its
+// REST helpers, and importing them should not shell out and seed a tenant.
+if (
+  require.main === module &&
+  !process.env.DISPLAY &&
+  !process.env.SEED_XVFB_WRAPPED &&
+  process.platform === 'linux'
+) {
   if (spawnSync('which', ['xvfb-run']).status === 0) {
     const res = spawnSync(
       'xvfb-run',
@@ -98,6 +104,37 @@ let created = { groups: 0, lists: 0, fields: 0, items: 0, files: 0, folders: 0 }
 // ---------------------------------------------------------------------------
 // Building blocks
 // ---------------------------------------------------------------------------
+
+/**
+ * Resolve the fictional personas into site users.
+ *
+ * ensureuser both resolves a login name and adds it to the site's user
+ * information list, which is what a person column stores a reference to. The
+ * domain comes from the signed-in account so this stays tenant-agnostic.
+ *
+ * Personas that do not exist in the directory are skipped rather than fatal —
+ * the seeder has no rights to mint accounts. Assigning to whoever else happens
+ * to be in the tenant is exactly the behaviour this replaced, so the fallback
+ * is the running account alone.
+ */
+async function ensurePersonas(sp, personas, me) {
+  const domain = (me.LoginName.split('|').pop() || '').split('@')[1];
+  const resolved = [];
+  for (const p of personas) {
+    const login = domain ? `${p.alias}@${domain}` : p.alias;
+    try {
+      const u = await sp(`/_api/web/ensureuser`, { method: 'POST', body: { logonName: login } });
+      resolved.push({ Id: u.Id, Title: u.Title, LoginName: u.LoginName, Email: u.Email });
+    } catch (err) {
+      console.warn(`  persona ${login} could not be resolved: ${err.message.slice(0, 90)}`);
+    }
+  }
+  if (!resolved.length) {
+    console.warn('  no personas resolved — falling back to the signed-in account');
+    return [{ Id: me.Id, Title: me.Title, LoginName: me.LoginName }];
+  }
+  return resolved;
+}
 
 async function ensureGroup(sp, group, users, claimsByTitle = {}) {
   const existing = await sp(`/_api/web/sitegroups?$filter=Title eq '${group.title}'`);
@@ -208,7 +245,7 @@ async function addItems(sp, listTitle, rows) {
   return n;
 }
 
-module.exports = { makeClient, ensureGroup, ensureList, ensureField, addItems };
+module.exports = { makeClient, ensurePersonas, ensureGroup, ensureList, ensureField, addItems };
 
 // ---------------------------------------------------------------------------
 // Main
@@ -238,15 +275,14 @@ if (require.main === module) {
         console.warn('WARNING: not a site-collection admin; permission steps will likely fail.\n');
       }
 
-      // Real principals only — we cannot mint M365 accounts from here.
+      console.log('personas');
+      const humans = await ensurePersonas(sp, PERSONAS, me);
+      const logins = humans.map((u) => u.LoginName);
+      console.log(`  ${humans.map((u) => u.Title).join(', ')}\n`);
+
       const siteUsers = await sp(
         '/_api/web/siteusers?$select=Id,Title,LoginName,Email,PrincipalType'
       );
-      const humans = (siteUsers?.results || []).filter(
-        (u) => u.PrincipalType === 1 && u.Email && !/app@|spsearch|system/i.test(u.LoginName)
-      );
-      const logins = humans.map((u) => u.LoginName);
-      console.log(`principals: ${humans.map((u) => u.Email).join(', ') || '(none)'}\n`);
 
       // --- groups ---------------------------------------------------------
       // Claims principals are addressed by login name, which is tenant-specific.
