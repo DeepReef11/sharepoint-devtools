@@ -33,10 +33,10 @@ clicks to reach.</sub>
 Results are scoped to where you already are, so a list page offers list settings and a site page
 does not.</sub>
 
-![Lists and Libraries navigator: pressing Alt+O opens a searchable list of every list and library in the site, filtering as you type](docs/media/lists-navigator.gif)
+![Lists and Libraries navigator: pressing Alt+O opens a searchable list of every list and library in the site, filtering as you type, and Enter opens the selected list](docs/media/lists-navigator.gif)
 
-<sub><b>Lists &amp; Libraries (`Alt+O`)</b> — every list and library in the site, filtered as you
-type.</sub>
+<sub><b>Lists &amp; Libraries (`Alt+O`)</b> — every list and library in the site with its item count,
+filtered as you type. <b>Enter</b> opens the one you picked.</sub>
 
 ### Inspectors
 
