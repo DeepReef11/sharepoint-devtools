@@ -22,12 +22,16 @@ const GROUPS = [
     description: 'Build team — contribute to backlog and docs',
     role: 'Contribute',
     members: [0, 1],
+    claimMembers: ['Everyone except external users'],
   },
   {
     title: 'QA Reviewers',
     description: 'Read-only access for verification passes',
     role: 'Read',
     members: [1],
+    // A claims principal makes group membership look like a real tenant's and
+    // gives the permission inspector's Groups tab something to expand into.
+    claimMembers: ['Everyone except external users'],
   },
   {
     title: 'Contract Auditors',

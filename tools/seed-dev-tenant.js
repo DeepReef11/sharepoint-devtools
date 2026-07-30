@@ -99,7 +99,7 @@ let created = { groups: 0, lists: 0, fields: 0, items: 0, files: 0, folders: 0 }
 // Building blocks
 // ---------------------------------------------------------------------------
 
-async function ensureGroup(sp, group, users) {
+async function ensureGroup(sp, group, users, claimsByTitle = {}) {
   const existing = await sp(`/_api/web/sitegroups?$filter=Title eq '${group.title}'`);
   let g = existing?.results?.[0];
 
@@ -125,8 +125,14 @@ async function ensureGroup(sp, group, users) {
     ).catch(() => {});
   }
 
-  // Populate with whichever real users the tenant actually has.
-  for (const login of group.members.map((i) => users[i]).filter(Boolean)) {
+  // Populate with whichever real users the tenant actually has, plus any
+  // claims principals (e.g. "Everyone except external users") named by the spec.
+  const logins = [
+    ...group.members.map((i) => users[i]),
+    ...(group.claimMembers || []).map((title) => claimsByTitle[title]),
+  ].filter(Boolean);
+
+  for (const login of logins) {
     await sp(`/_api/web/sitegroups(${g.Id})/users`, {
       method: 'POST',
       body: { __metadata: { type: 'SP.User' }, LoginName: login },
@@ -243,10 +249,18 @@ if (require.main === module) {
       console.log(`principals: ${humans.map((u) => u.Email).join(', ') || '(none)'}\n`);
 
       // --- groups ---------------------------------------------------------
+      // Claims principals are addressed by login name, which is tenant-specific.
+      const claimsByTitle = Object.fromEntries(
+        (siteUsers?.results || [])
+          .filter((u) => u.PrincipalType === 4)
+          .map((u) => [u.Title, u.LoginName])
+      );
+
       console.log('groups');
       for (const g of GROUPS) {
-        const grp = await ensureGroup(sp, g, logins);
-        console.log(`  ${grp.Title} (${g.role})`);
+        const grp = await ensureGroup(sp, g, logins, claimsByTitle);
+        const extra = (g.claimMembers || []).filter((t) => claimsByTitle[t]);
+        console.log(`  ${grp.Title} (${g.role})${extra.length ? ` + ${extra.join(', ')}` : ''}`);
       }
 
       // --- lists ----------------------------------------------------------
