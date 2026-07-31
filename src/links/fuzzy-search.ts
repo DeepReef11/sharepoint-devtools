@@ -31,8 +31,17 @@ export interface SearchResult {
  * Default Fuse.js options optimized for SharePoint link search
  */
 const DEFAULT_FUSE_OPTIONS: IFuseOptions<SharePointLink> = {
-  // Matching threshold (0.0 = perfect, 1.0 = match anything)
-  threshold: 0.4,
+  // Matching threshold (0.0 = perfect, 1.0 = match anything).
+  //
+  // 0.4 was too loose to combine with ignoreLocation below. Dropping the
+  // distance penalty lets Fuse take its best matching window anywhere in a
+  // field, so a query needed only ~60% of its characters to line up somewhere
+  // to clear 0.4: "zebra" matched "Li(brar)y" and came back scoring 0.03,
+  // better than most genuine matches, filling the palette with 15 unrelated
+  // results. Measured across the shipped registry, every value from 0.35 down
+  // to 0.20 rejects all of zebra/pizza/banana/qwerty while leaving typo and
+  // prefix matching untouched; 0.3 sits in the middle of that band.
+  threshold: 0.3,
 
   // Location of pattern in string (0 = start)
   location: 0,
