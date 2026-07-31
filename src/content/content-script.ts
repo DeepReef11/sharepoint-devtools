@@ -9,6 +9,7 @@ import { ObjectInspectorIntegration } from './object-inspector-integration';
 import { PermissionInspectorIntegration } from './permission-inspector-integration';
 import { LinkManager } from '../links/link-manager';
 import { createFuzzySearch } from '../links/fuzzy-search';
+import { CustomLinksStorage } from '../storage/custom-links-storage';
 import { PlaceholderValues, SharePointLink, LinkCategory } from '../links/types';
 import {
   getSharePointContext,
@@ -108,6 +109,18 @@ if (isSharePointPage()) {
   // Start async fetch of site lists and libraries (don't block modal)
   fetchSiteListsAndLibraries();
 
+  // Pull in the user's own links. Storage is async and the palette should be
+  // usable immediately, so this runs after the modal exists and refreshes it.
+  loadCustomLinks();
+
+  // Adding or editing a link on the options page should take effect without
+  // reloading every open SharePoint tab.
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync' && changes.customLinks) {
+      loadCustomLinks();
+    }
+  });
+
   // Set up keyboard shortcut for Ctrl+K / Cmd+K (QuickNav)
   document.addEventListener('keydown', (e: KeyboardEvent) => {
     // Toggle QuickNav modal with Ctrl+K or Cmd+K
@@ -123,6 +136,36 @@ if (isSharePointPage()) {
   console.log(
     'Keyboard shortcuts initialized: Ctrl+K (QuickNav), Alt+I (Object Inspector), Alt+P (Permissions)'
   );
+}
+
+/**
+ * Load the user's custom links and fold them into the palette.
+ *
+ * Custom links were written and read only by the options page, so a link the
+ * user created was stored, listed and editable there but never appeared in
+ * QuickNav — the one place it was for.
+ */
+async function loadCustomLinks(): Promise<void> {
+  if (!linkManager) return;
+
+  const result = await CustomLinksStorage.loadCustomLinks();
+  if (!result.success) {
+    logError('loadCustomLinks', new Error(result.error || 'unknown storage error'));
+    return;
+  }
+
+  linkManager.setCustomLinks(result.data || []);
+  console.log('Custom links loaded:', result.data?.length ?? 0);
+
+  const context = getSharePointContext();
+  const isListContext = context.pageType === 'list' || context.pageType === 'library';
+  fuzzySearch?.setLinks(linkManager.getApplicableLinks(currentPlaceholders, isListContext));
+
+  // Repaint if the palette is already open on its default list, otherwise a
+  // link added moments ago is missing until the user closes and reopens it.
+  if (quickNavModal?.isOpen()) {
+    await showAllLinks();
+  }
 }
 
 /**
@@ -488,7 +531,13 @@ async function showAllLinks(): Promise<void> {
 
   // Filter to only show high-priority links (priority >= 5)
   // This gives us just the most important links instead of all 75+
-  const priorityLinks = applicableLinks.filter((link) => (link.priority || 0) >= 5);
+  //
+  // A link the user added themselves is not one of the 75 to be trimmed, and
+  // the options page makes priority optional — so custom links stay in the
+  // default list whether or not one was given.
+  const priorityLinks = applicableLinks.filter(
+    (link) => linkManager!.isCustomLink(link.id) || (link.priority || 0) >= 5
+  );
 
   console.log(
     'showAllLinks - Priority links (>=5):',
