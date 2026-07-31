@@ -1,5 +1,12 @@
 # Recent and Favorite Links Feature
 
+> **Status: not shipped.** This describes the storage layer, which exists and is tested, not
+> behaviour you can reach in the extension. Nothing calls `LinkTracker.trackLinkAccess` when you
+> navigate, so no link is ever recorded; there is no favorite control in the palette and no
+> recents or favorites section on the options page. `src/ui/quick-access.ts` renders both, but is
+> imported by nothing and never mounted. Read this as a design note for finishing the feature —
+> see the [roadmap](../ROADMAP.md).
+
 ## Overview
 
 The Recent and Favorite Links feature enhances SharePoint DevTools by providing users with quick access to their most frequently used links and personally curated favorites. This feature uses `chrome.storage` to persist user data across sessions.

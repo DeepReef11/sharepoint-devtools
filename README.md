@@ -22,7 +22,8 @@ clicks to reach.</sub>
 - **Lists & Libraries (`Alt+O`)** — browse every list and library in the current site
 - **Context-aware** — list-scoped destinations appear only when you are actually inside a list or
   library, so results stay short
-- **Recents, favorites and custom links** — your own destinations, managed from the options page
+- **Custom links** — add your own destinations on the options page, with the same placeholders the
+  built-in ones use; they appear in QuickNav alongside them
 - **Multi-cloud** — commercial and GCC (`*.sharepoint.com`), GCC High (`*.sharepoint.us`), DoD
   (`*.sharepoint-mil.us`) and China/21Vianet (`*.sharepoint.cn`). Only the commercial cloud has been
   tested against a live tenant; the others are wired up but unverified.
@@ -99,7 +100,7 @@ The extension requests as little as it can:
 | Permission | Why |
 |---|---|
 | `https://*.sharepoint.{com,us,cn}/*`, `https://*.sharepoint-{df.com,mil.us}/*` | The content script only runs on SharePoint pages, across all clouds |
-| `storage` | Stores your favorites, recents and custom links |
+| `storage` | Stores your custom links |
 | `activeTab`, `scripting` | Opens the modal in the tab you are on |
 
 All SharePoint data is read through the REST API of the site you are already viewing, using your
@@ -126,7 +127,7 @@ src/
 ├── context/      SharePoint context detection (site, web, list, page type)
 ├── links/        link registry, templates, fuzzy search
 ├── managers/     tenant management
-├── storage/      chrome.storage wrappers: recents, favorites, custom links
+├── storage/      chrome.storage wrappers: custom links, plus an unwired recents/favorites layer
 ├── types/        shared TypeScript types
 ├── ui/           modal and inspector components
 ├── utils/        clipboard, error handling, HTML escaping

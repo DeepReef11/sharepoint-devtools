@@ -5,6 +5,11 @@ Planned work, roughly in priority order. Suggestions are welcome via
 
 ## Next
 
+- **Finish recents and favorites** — the storage layer (`LinkTracker`, `FavoritesManager`) and a
+  UI component (`src/ui/quick-access.ts`) both exist and are tested, but nothing wires them
+  together: selecting a link navigates without recording it, and the component is imported by
+  nothing. Needs a tracking call on selection and somewhere in the palette to surface both. See
+  [docs/RECENT_FAVORITE_LINKS.md](docs/RECENT_FAVORITE_LINKS.md)
 - **Store distribution** — Chrome Web Store and Edge Add-ons listings: promotional assets,
   screenshots and a privacy policy
 - **TypeScript strict mode** — `strict` is currently off; enabling it will surface a backlog of
